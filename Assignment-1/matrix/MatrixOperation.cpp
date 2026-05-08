@@ -16,7 +16,6 @@ int** createMatrix(int row, int col){
     }
     return matrix;
 }
-
 void inputMatrix(int** matrix, int row, int col){  
     for (int i=0; i<row; i++){
         for (int j=0; j<col; j++){
@@ -30,10 +29,6 @@ void inputMatrix(int** matrix, int row, int col){
                 cin.ignore(1000,'\n');
                 cout<<"Invalid input enter integer only"<<endl;
               }
-              else if (cin.peek() != '\n'){
-                    cin.ignore(1000, '\n');
-                    cout << "Float value not allowed" << endl;
-                }
               else{
                 break;
               }
@@ -42,7 +37,6 @@ void inputMatrix(int** matrix, int row, int col){
         }
     }
 }
-
 void displayMatrix(int** matrix, int row, int col){
     for (int i=0; i<row; i++) {
         for (int j=0; j<col; j++){

@@ -1,5 +1,5 @@
-#include<iostream>
 #include "MatrixOperations.h"
+#include<iostream>
 using namespace std;
 void addition(){
      int row1, col1, row2, col2;
