@@ -16,15 +16,16 @@ public:
     }
     void display()
     {
-        cout << "The addition of " << real << "+ i" << img;
+        cout << "The addition of " << real << "-i" << img;
     }
     Complex operator+(Complex &c)
     {
         Complex ans;
-        ans.real = real + c.real;
-        ans.img = img + c.img;
+        ans.real = real - c.real;
+        ans.img = img - c.img;
         return ans;
     }
+    
 };
 int main()
 {
