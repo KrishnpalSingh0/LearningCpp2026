@@ -22,6 +22,13 @@ struct Demo2
     int val1, val2;
     Demo1 d;
 };
+struct employee
+{
+    int id;
+    int age;
+    double wage;
+};
+
 int main()
 {
     Demo d;
@@ -34,5 +41,10 @@ int main()
     cout << d2.val1 << ", " << d2.val2 << endl;
     cout << d2.d.d3.x << ", " << d2.d.d3.y << endl;
     cout << "Another nested struct value " << d2.d.num1 << ", " << d2.d.num2 << endl;
+    employee e = {
+        1,
+        2,
+    };
+    cout << e.wage << endl;// it will print the result zero
     return 0;
 }
