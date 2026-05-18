@@ -2,6 +2,7 @@
 #include "../Headers/Customer.h"
 #include "../Headers/Admin.h"
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 Bank::Bank(int code, string name)
@@ -75,26 +76,42 @@ Customer *Bank::createCustomer(string userName, string password, double initialD
     Customer *customer = new Customer(userId, userName, password, 500 + m_totalUsers);
     addUser(customer);
     Account *acc = new Account(1000 + m_totalAccounts, initialDeposit, "14-05-2026");
-
     m_accounts[m_totalAccounts++] = acc;
-
     customer->setAccount(acc);
-
+    ofstream file("accounts.txt", ios::app);
+    file << customer->getUserId() << " "
+         << customer->getUserName() << " "
+         << acc->getAccountNumber() << " "
+         << acc->getBalance() << " "
+         << acc->getAccountStatus()
+         << endl;
+    file.close();
     return customer;
 }
 
 void Bank::removeAccount(int accountNumber)
 {
-    Account *acc = searchAccount(accountNumber);
-    if (acc != nullptr)
+    for (int i = 0; i < m_totalAccounts; i++)
     {
-        acc->closeAccount();
-        cout << "\nAccount Closed Successfully";
+        if (m_accounts[i]->getAccountNumber() == accountNumber)
+        {
+            m_accounts[i]->closeAccount();
+            ofstream file("accounts.txt");
+            for (int j = 0; j < m_totalAccounts; j++)
+            {
+                file << m_accounts[j]->getAccountNumber()
+                     << " "
+                     << m_accounts[j]->getBalance()
+                     << " "
+                     << m_accounts[j]->getAccountStatus()
+                     << endl;
+            }
+            file.close();
+            cout << "\nAccount Closed Successfully";
+            return;
+        }
     }
-    else
-    {
-        cout << "\nAccount Not Found!";
-    }
+    cout << "\nAccount Not Found!";
 }
 
 void Bank::displayAllAccounts()
@@ -107,8 +124,7 @@ void Bank::displayAllAccounts()
     }
     for (int i = 0; i < m_totalUsers; i++)
     {
-        Customer *customer =
-            dynamic_cast<Customer *>(m_users[i]);
+        Customer *customer = (Customer *)(m_users[i]);
         if (customer != nullptr &&
             customer->getAccount() != nullptr)
         {

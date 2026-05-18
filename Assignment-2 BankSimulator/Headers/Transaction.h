@@ -16,5 +16,10 @@ private:
 public:
     Transaction(int id, string type, double amount, string date, double balance);
     void displayTransaction() const;
+    static void saveTransaction(
+        int accNo,
+        string type,
+        double amount,
+        double balance);
 };
 #endif

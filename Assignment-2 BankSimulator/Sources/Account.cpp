@@ -1,4 +1,5 @@
 #include "../Headers/Account.h"
+#include "../Headers/Transaction.h"
 #include <iostream>
 using namespace std;
 
@@ -22,13 +23,7 @@ Account::~Account()
 }
 void Account::addTransaction(string type, double amount)
 {
-    Transaction *transaction = new Transaction(
-        m_totalTransactions + 1,
-        type,
-        amount,
-        "14-05-2026",
-        m_balance);
-
+    Transaction *transaction = new Transaction(m_totalTransactions + 1, type, amount, "14-05-2026", m_balance);
     m_transactions[m_totalTransactions++] = transaction;
 }
 void Account::deposit(double amount)
@@ -36,13 +31,13 @@ void Account::deposit(double amount)
     if (m_accountStatus == "ACTIVE")
     {
         m_balance += amount;
-        addTransaction("DEPOSIT", amount);
+        Transaction::saveTransaction(m_accountNumber, "DEPOSIT", amount, m_balance);
         cout << "\nAmount Deposited Successfully";
         cout << "\nCurrent Balance: " << m_balance;
     }
     else
     {
-        cout << "\nAccount Is Closed!" << endl;;
+        cout << "\nAccount Is Closed!" << endl;
     }
 }
 void Account::withdraw(double amount)
@@ -50,8 +45,7 @@ void Account::withdraw(double amount)
     if (m_accountStatus == "ACTIVE" && m_balance >= amount)
     {
         m_balance -= amount;
-        cout << "Withdrawal Successful" << endl;
-        addTransaction("Withdraw", amount);
+        Transaction::saveTransaction(m_accountNumber, "WITHDRAW", amount, m_balance);
         cout << "Withdrwal Successfully" << endl;
         cout << "Current Balance:- " << m_balance << endl;
     }
