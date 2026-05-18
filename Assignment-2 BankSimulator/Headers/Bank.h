@@ -17,7 +17,6 @@ public:
     Bank(int code, string name);
     ~Bank();
     void addUser(User *user);
-    void removeUser(int userId);
     Customer *createCustomer(
         string userName,
         string password,

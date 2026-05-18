@@ -17,5 +17,6 @@ void Transaction::displayTransaction() const
     cout << m_transactionId
          << " | " << m_type
          << " | " << m_amount
+         << " | " << m_date
          << " | " << m_balanceAfter;
 }

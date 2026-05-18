@@ -31,6 +31,14 @@ void Menu::loginMenu(Bank &bank)
     else
     {
         Customer *customer = (Customer *)user;
+        Account *acc = customer->getAccount();
+        if (acc->getAccountStatus() != "ACTIVE")
+        {
+            cout << "\nYour Account Is ";
+            cout << acc->getAccountStatus();
+            cout << "\nLogin Denied!";
+            return;
+        }
         customerMenu(bank, customer);
     }
 }
@@ -46,8 +54,7 @@ void Menu::customerMenu(Bank &bank, Customer *customer)
         cout << "\n3. Balance";
         cout << "\n4. Mini Statement";
         cout << "\n5. Bank Statement";
-        cout << "\n6. Close Account";
-        cout << "\n7. Logout";
+        cout << "\n6. Logout";
         cout << "\nEnter Choice: ";
         choice = InputHelper ::getIntegerInput();
         switch (choice)
@@ -78,21 +85,12 @@ void Menu::customerMenu(Bank &bank, Customer *customer)
             customer->displayBankStatement();
             break;
         case 6:
-        {
-            int accNo = customer->getAccount()
-                            ->getAccountNumber();
-            bank.removeAccount(accNo);
-            customer->closeAccount();
-            customer->logout();
-            break;
-        }
-        case 7:
             customer->logout();
             break;
         default:
             cout << "\nInvalid Choice!";
         }
-    } while (choice != 7);
+    } while (choice != 6);
 }
 
 void Menu::adminMenu(Bank &bank, Admin *admin)
