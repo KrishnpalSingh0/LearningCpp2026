@@ -13,11 +13,6 @@ void Admin::closeAccount(Account *account)
     if (account != nullptr)
         account->closeAccount();
 }
-Account *Admin::searchAccount(int accountNumber)
-{
-    cout << "Admin searching account..." << endl;
-    return nullptr;
-}
 void Admin::viewDetails(Account *account)
 {
     if (account != nullptr)
