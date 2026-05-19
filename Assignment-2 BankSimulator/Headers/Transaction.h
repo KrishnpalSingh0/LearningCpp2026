@@ -16,10 +16,12 @@ private:
 public:
     Transaction(int id, string type, double amount, string date, double balance);
     void displayTransaction() const;
-    static void saveTransaction(
-        int accNo,
+   static void saveTransactionInFile(
+        string customerName,
+        int accountNumber,
         string type,
         double amount,
         double balance);
+        
 };
 #endif

@@ -13,6 +13,7 @@ private:
     string m_accountStatus;
     Transaction *m_transactions[100];
     int m_totalTransactions;
+    string m_customerName;
 
 public:
     Account(
@@ -31,5 +32,7 @@ public:
         double amount);
     void displayMiniStatement();
     void displayBankStatement();
+    void setCustomerName(string name);
+    string getCustomerName() const;
 };
 #endif

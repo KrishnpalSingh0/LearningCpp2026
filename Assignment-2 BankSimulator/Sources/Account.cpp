@@ -21,6 +21,14 @@ Account::~Account()
         delete m_transactions[i];
     }
 }
+void Account::setCustomerName(string name)
+{
+    m_customerName = name;
+}
+string Account::getCustomerName() const
+{
+    return m_customerName;
+}
 void Account::addTransaction(string type, double amount)
 {
     Transaction *transaction = new Transaction(m_totalTransactions + 1, type, amount, "14-05-2026", m_balance);
@@ -31,9 +39,11 @@ void Account::deposit(double amount)
     if (m_accountStatus == "ACTIVE")
     {
         m_balance += amount;
-        Transaction::saveTransaction(m_accountNumber, "DEPOSIT", amount, m_balance);
+        addTransaction("DEPOSIT", amount);
+        Transaction::saveTransactionInFile(m_customerName, m_accountNumber,
+                                           "DEPOSIT", amount, m_balance);
         cout << "\nAmount Deposited Successfully";
-        cout << "\nCurrent Balance: " << m_balance;
+        cout << "\nCurrent Balance: " << m_balance << endl;
     }
     else
     {
@@ -45,7 +55,9 @@ void Account::withdraw(double amount)
     if (m_accountStatus == "ACTIVE" && m_balance >= amount)
     {
         m_balance -= amount;
-        Transaction::saveTransaction(m_accountNumber, "WITHDRAW", amount, m_balance);
+        addTransaction("DEPOSIT", amount);
+        Transaction::saveTransactionInFile(m_customerName, m_accountNumber,
+                                           "WITHDRAW", amount, m_balance);
         cout << "Withdrwal Successfully" << endl;
         cout << "Current Balance:- " << m_balance << endl;
     }

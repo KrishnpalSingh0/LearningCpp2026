@@ -21,15 +21,15 @@ void Transaction::displayTransaction() const
          << " | " << m_date
          << " | " << m_balanceAfter;
 }
-void Transaction::saveTransaction(int accNo, string type, double amount, double balance)
+void Transaction::saveTransactionInFile(string customerName, int accountNumber,
+                                        string type, double amount, double balance)
 {
     ofstream file("transactions.txt", ios::app);
-
-    file << accNo << " "
+    file << customerName << " "
+         << accountNumber << " "
          << type << " "
          << amount << " "
          << balance
          << endl;
-
     file.close();
 }
