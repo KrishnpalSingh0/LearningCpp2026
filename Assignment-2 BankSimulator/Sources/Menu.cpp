@@ -119,15 +119,10 @@ void Menu::adminMenu(Bank &bank, Admin *admin)
             cin >> password;
             cout << "Enter Initial Deposit: ";
             deposit = InputHelper::getIntegerInput();
-            Customer *customer =
-                bank.createCustomer(
-                    name,
-                    password,
-                    deposit);
+            Customer *customer = bank.createCustomer(name, password, deposit);
             cout << "\nCustomer Created Successfully!";
             cout << "\nCustomer ID: "
                  << customer->getUserId();
-
             cout << "\nAccount Number: "
                  << customer->getAccount()->getAccountNumber();
             break;
@@ -148,20 +143,6 @@ void Menu::adminMenu(Bank &bank, Admin *admin)
                      << acc->getBalance();
                 cout << "\nStatus: "
                      << acc->getAccountStatus();
-                for (int i = 0; i < 100; i++)
-                {
-                    Customer *customer =
-                        bank.searchCustomer(100 + i);
-                    if (customer != nullptr &&
-                        customer->getAccount() == acc)
-                    {
-                        cout << "\nCustomer Name: "
-                             << customer->getUserName();
-                        cout << "\nCustomer ID: "
-                             << customer->getUserId();
-                        break;
-                    }
-                }
             }
             else
             {

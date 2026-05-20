@@ -1,5 +1,6 @@
 #include "../Headers/Customer.h"
 #include "../Headers/Bank.h"
+
 #include <iostream>
 using namespace std;
 
@@ -47,14 +48,9 @@ void Customer::setAccount(Account *account)
 {
     m_account = account;
 }
-void Customer::closeAccount()
+int Customer::getCustomerId() const
 {
-    if(m_account != nullptr)
-    {
-        m_account->closeAccount();
-
-        cout << "\nYour Account Is Closed";
-    }
+    return m_customerId;
 }
 Account *Customer::getAccount() const
 {

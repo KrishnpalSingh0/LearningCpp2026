@@ -20,7 +20,6 @@ int User::getUserId() const
 {
     return m_userId;
 }
-
 string User::getUserName() const
 {
     return m_userName;

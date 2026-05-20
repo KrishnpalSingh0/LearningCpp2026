@@ -10,11 +10,10 @@ private:
     int m_transactionId;
     string m_type;
     double m_amount;
-    string m_date;
     double m_balanceAfter;
 
 public:
-    Transaction(int id, string type, double amount, string date, double balance);
+    Transaction(int id, string type, double amount,double balance);
     void displayTransaction() const;
    static void saveTransactionInFile(
         string customerName,

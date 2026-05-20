@@ -18,7 +18,6 @@ public:
     string getUserName() const;
     bool login(string userName, string password);
     void logout();
-    void changePassword(string oldPassword, string newPassword);
 };
 
 #endif

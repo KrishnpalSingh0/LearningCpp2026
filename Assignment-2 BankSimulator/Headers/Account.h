@@ -9,7 +9,6 @@ class Account
 private:
     int m_accountNumber;
     double m_balance;
-    string m_openingDate;
     string m_accountStatus;
     Transaction *m_transactions[100];
     int m_totalTransactions;
@@ -18,8 +17,7 @@ private:
 public:
     Account(
         int accountNumber,
-        double balance,
-        string openingDate);
+        double balance);
     ~Account();
     void deposit(double amount);
     void withdraw(double amount);

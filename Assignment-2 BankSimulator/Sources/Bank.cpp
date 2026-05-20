@@ -13,10 +13,34 @@ Bank::Bank(int code, string name)
     m_accounts = new Account *[100];
     m_totalUsers = 0;
     m_totalAccounts = 0;
+    m_nextAccountNumber = 1000;
+    m_nextUserId = 101;
+    ifstream file("accounts.txt");
+    string customerName;
+    int accNo;
+    int userId;
+    double balance;
+    string status;
+    while (file >> userId >> customerName >> accNo >> balance >> status)
+    {
+        if (accNo >= m_nextAccountNumber)
+        {
+            m_nextAccountNumber = accNo + 1;
+        }
+        if (userId >= m_nextUserId)
+        {
+            m_nextUserId = userId + 1;
+        }
+    }
+    file.close();
 }
-
 Bank::~Bank()
 {
+    for (int i = 0; i < m_totalUsers; i++)
+        delete m_users[i];
+
+    for (int i = 0; i < m_totalAccounts; i++)
+        delete m_accounts[i];
     delete[] m_users;
     delete[] m_accounts;
 }
@@ -24,7 +48,7 @@ Bank::~Bank()
 void Bank::createUsers()
 {
     Admin *mainAdmin = new Admin(
-        101,
+        1111,
         "admin@Bank",
         "admin123",
         5001);
@@ -46,18 +70,6 @@ User *Bank::login(string userName, string password)
     }
     return nullptr;
 }
-Customer *Bank::searchCustomer(int userId)
-{
-    for (int i = 0; i < m_totalUsers; i++)
-    {
-        if (m_users[i]->getUserId() == userId)
-        {
-            return (Customer *)m_users[i];
-        }
-    }
-
-    return nullptr;
-}
 
 Account *Bank::searchAccount(int accountNumber)
 {
@@ -72,15 +84,17 @@ Account *Bank::searchAccount(int accountNumber)
 }
 Customer *Bank::createCustomer(string userName, string password, double initialDeposit)
 {
-    int userId = 100 + m_totalUsers;
+    int userId = m_nextUserId;
     Customer *customer = new Customer(userId, userName, password, 500 + m_totalUsers);
     addUser(customer);
-    Account *acc = new Account(1000 + m_totalAccounts, initialDeposit, "14-05-2026");
+    Account *acc = new Account(m_nextAccountNumber, initialDeposit);
     acc->setCustomerName(userName);
     m_accounts[m_totalAccounts++] = acc;
     customer->setAccount(acc);
     ofstream file("accounts.txt", ios::app);
-    file << customer->getUserName()
+    file << customer->getUserId()
+         << " "
+         << customer->getUserName()
          << " "
          << acc->getAccountNumber()
          << " "
@@ -89,6 +103,8 @@ Customer *Bank::createCustomer(string userName, string password, double initialD
          << acc->getAccountStatus()
          << endl;
     file.close();
+    m_nextAccountNumber++;
+    m_nextUserId++;
     return customer;
 }
 
@@ -96,16 +112,16 @@ void Bank::removeAccount(int accountNumber)
 {
     for (int i = 0; i < m_totalUsers; i++)
     {
-        Customer *customer = dynamic_cast<Customer *>(m_users[i]);
-        if (customer != nullptr &&
-            customer->getAccount() != nullptr)
+        Customer *customer = (Customer *)(m_users[i]);
+        if (customer != nullptr && customer->getAccount() != nullptr)
         {
             Account *acc = customer->getAccount();
             if (acc->getAccountNumber() == accountNumber)
             {
                 acc->closeAccount();
                 ofstream file("accounts.txt", ios::app);
-                file << customer->getUserName() << " "
+                file << customer->getUserId() << " "
+                     << customer->getUserName() << " "
                      << acc->getAccountNumber() << " "
                      << acc->getBalance() << " "
                      << acc->getAccountStatus()
@@ -124,12 +140,15 @@ void Bank::displayAllAccounts()
     ifstream file("accounts.txt");
     string name;
     int accNo;
+    int userId;
     double balance;
     string status;
     cout << "\n===== ALL ACCOUNTS =====";
-    while (file >> name >> accNo >> balance >> status)
+    while (file >> userId >> name >> accNo >> balance >> status)
     {
         cout << "\n-------------------";
+        cout << "\nUser Id: "
+             << userId;
         cout << "\nCustomer Name: "
              << name;
         cout << "\nAccount Number: "

@@ -3,11 +3,10 @@
 #include <iostream>
 using namespace std;
 
-Account::Account(int accountNumber, double balance, string openingDate)
+Account::Account(int accountNumber, double balance)
 {
     m_accountNumber = accountNumber;
     m_balance = balance;
-    m_openingDate = openingDate;
     m_accountStatus = "ACTIVE";
     m_totalTransactions = 0;
     addTransaction(
@@ -31,7 +30,7 @@ string Account::getCustomerName() const
 }
 void Account::addTransaction(string type, double amount)
 {
-    Transaction *transaction = new Transaction(m_totalTransactions + 1, type, amount, "14-05-2026", m_balance);
+    Transaction *transaction = new Transaction(m_totalTransactions + 1, type, amount, m_balance);
     m_transactions[m_totalTransactions++] = transaction;
 }
 void Account::deposit(double amount)
@@ -55,7 +54,7 @@ void Account::withdraw(double amount)
     if (m_accountStatus == "ACTIVE" && m_balance >= amount)
     {
         m_balance -= amount;
-        addTransaction("DEPOSIT", amount);
+        addTransaction("WITHDRAW", amount);
         Transaction::saveTransactionInFile(m_customerName, m_accountNumber,
                                            "WITHDRAW", amount, m_balance);
         cout << "Withdrwal Successfully" << endl;
@@ -83,11 +82,7 @@ void Account::displayMiniStatement()
 void Account::displayBankStatement()
 {
     cout << "\n===== BANK STATEMENT =====" << endl;
-    int start = m_totalTransactions - 6;
-    if (start < 0)
-    {
-        start = 0;
-    }
+    int start = 0;
     for (int i = start; i < m_totalTransactions; i++)
     {
         m_transactions[i]->displayTransaction();

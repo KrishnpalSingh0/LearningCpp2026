@@ -11,7 +11,6 @@ private:
 
 public:
     Customer(int userId, string userName, string password, int customerId);
-    void closeAccount();
     void setAccount(Account *account);
     void deposit(int amount);
     void withdraw(int amount);
@@ -19,5 +18,6 @@ public:
     void displayMiniStatement();
     void displayBankStatement();
     Account *getAccount() const;
+    int getCustomerId() const;
 };
 #endif

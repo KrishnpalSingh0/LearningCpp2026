@@ -12,6 +12,8 @@ private:
     Account **m_accounts;
     int m_totalUsers;
     int m_totalAccounts;
+    int m_nextAccountNumber;
+    int m_nextUserId;
 
 public:
     Bank(int code, string name);
@@ -24,7 +26,6 @@ public:
     void removeAccount(int accountNumber);
     void createUsers();
     void displayAllAccounts();
-    Customer *searchCustomer(int userId);
     Account *searchAccount(int accountNumber);
     User *login(string userName, string password);
 };
