@@ -24,3 +24,7 @@ string User::getUserName() const
 {
     return m_userName;
 }
+string User::getPassword() const
+{
+    return m_password;
+}
