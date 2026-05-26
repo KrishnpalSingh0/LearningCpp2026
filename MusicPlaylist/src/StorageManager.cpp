@@ -2,8 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-
 using namespace std;
+
 void StorageManager::saveToFile(PlaylistManager &pm)
 {
     ofstream file("data/playlists.txt");
@@ -27,6 +27,7 @@ void StorageManager::saveToFile(PlaylistManager &pm)
         file << "END\n";
     }
 }
+
 void StorageManager::loadFromFile(PlaylistManager &pm)
 {
     ifstream file("data/playlists.txt");

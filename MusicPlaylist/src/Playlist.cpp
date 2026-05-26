@@ -93,6 +93,7 @@ Song *Playlist::getNextSong()
         m_currentIdx = 0;
     return &m_songs[m_currentIdx];
 }
+
 Song *Playlist::getPreviousSong()
 {
     if (m_songs.empty())
@@ -103,6 +104,7 @@ Song *Playlist::getPreviousSong()
         m_currentIdx = m_songs.size() - 1; 
     return &m_songs[m_currentIdx];
 }
+
 bool Playlist::moveUp(int index)
 {
     if (index <= 0 || index >= m_songs.size())
@@ -124,6 +126,7 @@ void Playlist::setPlaylistId(int id)
 {
     m_playlistId = id; 
 }
+
 bool Playlist::isEmpty(){
     return m_songs.empty();
 }
