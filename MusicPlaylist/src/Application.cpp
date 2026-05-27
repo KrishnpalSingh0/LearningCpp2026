@@ -43,7 +43,6 @@ void Application::run()
     PlaylistManager pm;
     IStorage *storage = new StorageManager();
     InputValidation input;
-   // Player player;
     SFMLAudioPlayer audio;
     Player player(&audio);
     Playlist *currentPlaylist = nullptr;
