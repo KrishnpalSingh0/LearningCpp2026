@@ -1,15 +1,15 @@
 #pragma once
-#include <SFML/Audio.hpp>
 #include "Playlist.h"
+#include "IAudioPlayer.h"
 
 class Player
 {
 private:
-    sf::Music m_music;    
-    Playlist *m_playlist; 
-   
+    IAudioPlayer *m_audio;
+    Playlist *m_playlist;
+
 public:
-    Player();
+    Player(IAudioPlayer *audio);
     void play();
     void pause();
     void stop();

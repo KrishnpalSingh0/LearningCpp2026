@@ -5,6 +5,7 @@
 #include "InputValidation.h"
 #include "Player.h"
 #include "Enums.h"
+#include "SFMLAudioPlayer.h"
 #include <iostream>
 #include <filesystem>
 using namespace std;
@@ -22,15 +23,31 @@ vector<string> listSongsFromFolder(const string &folderPath)
     }
     return files;
 }
+bool Application::checkPlaylistEmpty(Playlist *playlist)
+{
+     if (playlist == nullptr)
+    {
+        cout << "No playlist selected.\n";
+        return true;
+    }
+    if (playlist->isEmpty())
+    {
+        cout << "Playlist is empty. Please add your first song.\n";
+        return true;
+    }
+    return false;
+}
 void Application::run()
 {
     Menu menu;
     PlaylistManager pm;
-    StorageManager storage;
+    IStorage *storage = new StorageManager();
     InputValidation input;
-    Player player;
+   // Player player;
+    SFMLAudioPlayer audio;
+    Player player(&audio);
     Playlist *currentPlaylist = nullptr;
-    storage.loadFromFile(pm);
+    storage->loadFromFile(pm);
     int choice;
     while (true)
     {
@@ -45,7 +62,7 @@ void Application::run()
                 cout << "Enter playlist name: ";
                 string name = input.getValidString();
                 pm.createPlaylist(name);
-                storage.saveToFile(pm);
+                storage->saveToFile(pm);
                 break;
             }
 
@@ -91,83 +108,64 @@ void Application::run()
                                 string selectedSong = songs[songChoice - 1];
                                 currentPlaylist->addSong(selectedSong);
                                 string filename = fs::path(selectedSong).filename().string();
-                                storage.saveToFile(pm);
+                                storage->saveToFile(pm);
                                 break;
                             }
 
                             case PlaylistMenuOption::RemoveSong:
                                 currentPlaylist->removeSong();
                                 player.stop();
-                                storage.saveToFile(pm);
+                                storage->saveToFile(pm);
                                 break;
 
                             case PlaylistMenuOption::Play:
-                                if (currentPlaylist->isEmpty())
+                                if (!checkPlaylistEmpty(currentPlaylist))
                                 {
-                                    cout << "Playlist is empty. Please add your first song.\n";
-                                }
-                                else
-                                {
-                                    player.play();
+                                     player.play();
                                 }
                                 break;
 
                             case PlaylistMenuOption::Pause:
-                                if (currentPlaylist->isEmpty())
-                                {
-                                    cout << "Playlist is empty. Please add your first song.\n";
-                                }
-                                else
+                                if (!checkPlaylistEmpty(currentPlaylist))
                                 {
                                     player.pause();
                                 }
                                 break;
 
                             case PlaylistMenuOption::Stop:
-                                if (currentPlaylist->isEmpty())
-                                {
-                                    cout << "Playlist is empty. Please add your first song.\n";
-                                }
-                                else
+                                if (!checkPlaylistEmpty(currentPlaylist))
                                 {
                                     player.stop();
                                 }
                                 break;
 
                             case PlaylistMenuOption::Next:
-                                if (currentPlaylist->isEmpty())
-                                {
-                                    cout << "Playlist is empty. Please add your first song.\n";
-                                }
-                                else
+                                if (!checkPlaylistEmpty(currentPlaylist))
                                 {
                                     player.next();
                                 }
                                 break;
 
                             case PlaylistMenuOption::Previous:
-                                if (currentPlaylist->isEmpty())
-                                {
-                                    cout << "Playlist is empty. Please add your first song.\n";
-                                }
-                                else
+                                if (!checkPlaylistEmpty(currentPlaylist))
                                 {
                                     player.previous();
                                 }
                                 break;
 
                             case PlaylistMenuOption::MoveUp:
-                                if (currentPlaylist->isEmpty())
+                                if (!checkPlaylistEmpty(currentPlaylist))
                                 {
-                                    cout << "Playlist is empty. Please add your first song.\n";
-                                }
-                                else
-                                {
+                                    cout << "Songs in playlist:\n";
+                                    for (int i = 1; i <= currentPlaylist->getSongs().size(); i++)
+                                    {
+                                        cout << i << ". " << currentPlaylist->getSongs()[i - 1].getTitle() << "\n";
+                                    }
                                     cout << "Enter song index: ";
                                     if (currentPlaylist->moveUp(input.getIntValue() - 1))
                                     {
                                         cout << "Song moved up successfully.\n";
-                                        storage.saveToFile(pm);
+                                        storage->saveToFile(pm);
                                         cout << "Updated playlist order:\n";
                                         for (int i = 1; i <= currentPlaylist->getSongs().size(); i++)
                                         {
@@ -183,11 +181,7 @@ void Application::run()
                                 break;
 
                             case PlaylistMenuOption::MoveDown:
-                                if (currentPlaylist->isEmpty())
-                                {
-                                    cout << "Playlist is empty. Please add your first song.\n";
-                                }
-                                else
+                                if (!checkPlaylistEmpty(currentPlaylist))
                                 {
                                     cout << "Songs in playlist:\n";
                                     for (int i = 1; i <= currentPlaylist->getSongs().size(); i++)
@@ -198,7 +192,7 @@ void Application::run()
                                     if (currentPlaylist->moveDown(input.getIntValue() - 1))
                                     {
                                         cout << "Song Move Down Successfully.\n";
-                                        storage.saveToFile(pm);
+                                        storage->saveToFile(pm);
                                         cout << "Updated playlist order:\n";
                                         for (int i = 1; i <= currentPlaylist->getSongs().size(); i++)
                                         {
@@ -212,11 +206,7 @@ void Application::run()
                                 }
                                 break;
                             case PlaylistMenuOption::ShowAllSongs:
-                                if (currentPlaylist->isEmpty())
-                                {
-                                    cout << "Playlist is empty. Please add your first song.\n";
-                                }
-                                else
+                                if (!checkPlaylistEmpty(currentPlaylist))
                                 {
                                     cout << "Songs in playlist:\n";
                                     for (int i = 1; i <= currentPlaylist->getSongs().size(); i++)
@@ -244,12 +234,13 @@ void Application::run()
             case MainMenuOption::DeletePlaylist:
                 cout << "Enter playlist name: ";
                 pm.deletePlaylistByName(input.getValidString());
-                storage.saveToFile(pm);
+                storage->saveToFile(pm);
                 break;
 
             case MainMenuOption::Exit:
-                storage.saveToFile(pm);
+                storage->saveToFile(pm);
                 cout << "Exit.\n";
+                delete storage;
                 return;
         }
     backToMain:;

@@ -2,8 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-using namespace std;
 
+using namespace std;
 void StorageManager::saveToFile(PlaylistManager &pm)
 {
     ofstream file("data/playlists.txt");
@@ -27,7 +27,6 @@ void StorageManager::saveToFile(PlaylistManager &pm)
         file << "END\n";
     }
 }
-
 void StorageManager::loadFromFile(PlaylistManager &pm)
 {
     ifstream file("data/playlists.txt");
@@ -53,7 +52,6 @@ void StorageManager::loadFromFile(PlaylistManager &pm)
             string path;
             getline(ss, songIdStr, '|');
             getline(ss, path);
-            int songId = stoi(songIdStr);
             current->addSong(path);
         }
     }

@@ -1,7 +1,8 @@
 #pragma once
-
+#include "Playlist.h"
 class Application
 {
 public:
-    void run();  
+    bool checkPlaylistEmpty(Playlist *playlist);
+    void run();
 };

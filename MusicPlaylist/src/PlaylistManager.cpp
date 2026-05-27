@@ -49,7 +49,6 @@ void PlaylistManager::viewAllPlaylist()
              << endl;
     }
 }
-
 void PlaylistManager::deletePlaylistByName(const string &name)
 {
     for (int i = 0; i < m_playlists.size(); i++)

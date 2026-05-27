@@ -1,4 +1,6 @@
 PLAYLIST|1|Enjoy
-SONG|2|songs/AgarTumSaathHo.wav
 SONG|1|songs/Him.wav
+SONG|2|songs/AgarTumSaathHo.wav
+END
+PLAYLIST|2|Hello
 END

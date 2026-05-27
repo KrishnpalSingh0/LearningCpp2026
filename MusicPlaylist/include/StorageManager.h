@@ -1,7 +1,8 @@
 #pragma once
 #include "PlaylistManager.h"
+#include "IStorage.h"
 
-class StorageManager
+class StorageManager : public IStorage
 {
 public:
     void saveToFile(PlaylistManager &pm);
