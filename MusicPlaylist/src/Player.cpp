@@ -3,11 +3,7 @@
 #include <iostream>
 using namespace std;
 
-// Player::Player()
-// {
-//     m_audio = nullptr;
-//     m_playlist = nullptr;
-// }
+
 Player::Player(IAudioPlayer *audio)
 {
     m_audio = audio;
