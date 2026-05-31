@@ -1,7 +1,0 @@
-PLAYLIST|1|Enjoy
-SONG|1|songs/Him.wav
-SONG|2|songs/AgarTumSaathHo.wav
-END
-PLAYLIST|2|Hello
-SONG|1|songs/Beliver.wav
-END
