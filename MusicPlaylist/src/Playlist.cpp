@@ -115,7 +115,8 @@ bool Playlist::moveUp(int index)
 bool Playlist::moveDown(int index)
 {
     if (index < 0 || index >= m_songs.size() - 1)
-        return false;                               
+        return false;         
+                              
     swap(m_songs[index], m_songs[index + 1]); 
     return true;
 }
