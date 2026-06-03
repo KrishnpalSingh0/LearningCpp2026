@@ -74,7 +74,8 @@ void Application::run()
                 {
                     player.setPlaylist(currentPlaylist);
                     int pChoice;
-                    while (true)
+                    bool backToMainMenu = false;
+                    while (!backToMainMenu)
                     {
                         menu.showPlaylistMenu();
                         cout << "\nEnter choice: ";
@@ -215,7 +216,8 @@ void Application::run()
                                 }
                                 break;
                             case PlaylistMenuOption::Back:
-                                goto backToMain;
+                                backToMainMenu = true;
+                                break;
                         }
                     }
                 }
@@ -242,6 +244,5 @@ void Application::run()
                 delete storage;
                 return;
         }
-    backToMain:;
     }
 }

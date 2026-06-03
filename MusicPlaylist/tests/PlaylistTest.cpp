@@ -2,40 +2,45 @@
 #include "Playlist.h"
 #include <fstream>
 
-TEST(PlaylistTest, Constructor)
+class PlaylistTest : public testing::Test
 {
+public:
     Playlist p;
+    void SetUp() override {}
+    void TearDown() override {}
+};
+TEST_F(PlaylistTest, Constructor)
+{
     EXPECT_EQ(p.getPlaylistId(), 0);
     EXPECT_EQ(p.getName(), "");
     EXPECT_EQ(p.getNextSong(), nullptr);
 }
 
-TEST(PlaylistTest, ParameterizedConstructor)
+TEST_F(PlaylistTest, ParameterizedConstructor)
 {
-    Playlist p(1, "Enjoy");
+    Playlist p(1,"Enjoy");
     EXPECT_EQ(p.getPlaylistId(), 1);
     EXPECT_EQ(p.getName(), "Enjoy");
 }
 
-TEST(PlaylistTest, GetNextSong)
+TEST_F(PlaylistTest, GetNextSong)
 {
-    Playlist p;
     p.addSong("song1");
     p.addSong("song2");
     p.addSong("song3");
     Song *s = p.getNextSong();
     ASSERT_NE(s, nullptr);
-    EXPECT_EQ(s->getTitle(),"song2");
+    EXPECT_EQ(s->getTitle(), "song2");
 }
 
-TEST(PlaylistTest, CheckPlaylistEmpty)
+TEST_F(PlaylistTest, CheckPlaylistEmpty)
 {
-    Playlist p;
+
     EXPECT_EQ(p.getNextSong(), nullptr);
 }
 
-TEST(PlaylistTest, GetCurrentSong)
+TEST_F(PlaylistTest, GetCurrentSong)
 {
-    Playlist p;
+
     EXPECT_EQ(p.getCurrentSong(), nullptr);
 }
